@@ -1,5 +1,7 @@
 {
   "name": "eng-cards",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
