@@ -1,14 +1,34 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-menu side="start" type="overlay">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Username</ion-title>
+      <ion-avatar>
+        <img src="../../assets/avatars/1.png" class="avatar-img" alt="avatar">
+      </ion-avatar>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item>
+        <ion-icon name="person" slot="start"></ion-icon>
+        <ion-label>Profile</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="settings" slot="start"></ion-icon>
+        <ion-label>Settings</ion-label>
+      </ion-item>
+      <ion-item routerLink="/sign-in">
+        <ion-icon name="log-out" slot="start"></ion-icon>
+        <ion-label>Log Out</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-router-outlet main></ion-router-outlet>
 
 <ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+  <div class="home-main-block">
+    <h1 class="app-title">EngCards</h1>
+    <ion-button expand="block">Learn</ion-button>
   </div>
 </ion-content>
