@@ -8,6 +8,11 @@ import { MenuController } from '@ionic/angular';
 })
 export class HomePage {
 
-  constructor() {}
-  
+  constructor(
+    private menu: MenuController
+  ) {
+    this.menu.enable(true, 'mainMenu');
+    this.menu.swipeEnable(true, 'mainMenu');
+  }
+
 }
