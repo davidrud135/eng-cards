@@ -1,4 +1,5 @@
-<form class="auth-form" #signInForm="ngForm">
+<ion-content>
+  <form class="auth-form" #signInForm="ngForm">
     <ion-item>
       <ion-label position="floating">Email</ion-label>
       <ion-input 
@@ -18,5 +19,6 @@
         minlength="6"></ion-input>
     </ion-item>
     <ion-button expand="block" [disabled]="!signInForm.valid">Sign In</ion-button>
-    <ion-label>Don't have an account? <a routerLink="/sign-up">Create one.</a></ion-label>
+    <ion-label>Don't have an account? <a href="/sign-up">Create one.</a></ion-label>
   </form>
+</ion-content>
