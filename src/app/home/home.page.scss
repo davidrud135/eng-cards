@@ -7,7 +7,7 @@
 		padding: 50px;
 		text-align: center;
 		background-image: linear-gradient(to right, violet, yellow, indigo, blue, green, orange, red);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		color: transparent;
 	}
 }
