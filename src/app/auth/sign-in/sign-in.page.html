@@ -1,5 +1,10 @@
 <ion-content>
-  <form class="auth-form" #signInForm="ngForm">
+  <ion-progress-bar type="indeterminate" *ngIf="isLoading"></ion-progress-bar>
+  <form 
+    class="auth-form" 
+    #signInForm="ngForm"
+    *ngIf="!isLoading"
+    (ngSubmit)="onSignIn(signInForm)">
     <ion-item>
       <ion-label position="floating">Email</ion-label>
       <ion-input 
@@ -18,7 +23,10 @@
         required
         minlength="6"></ion-input>
     </ion-item>
-    <ion-button expand="block" [disabled]="!signInForm.valid">Sign In</ion-button>
+    <ion-button 
+      type="submit"
+      expand="block"
+      [disabled]="!signInForm.valid">Sign In</ion-button>
     <ion-label>Don't have an account? <a href="/sign-up">Create one.</a></ion-label>
   </form>
 </ion-content>
