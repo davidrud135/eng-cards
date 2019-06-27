@@ -11,8 +11,12 @@ export class HomePage {
   constructor(
     private menu: MenuController
   ) {
-    this.menu.enable(true, 'mainMenu');
-    this.menu.swipeEnable(true, 'mainMenu');
+    this.menu.enable(true, 'sideMenu');
+    this.menu.swipeEnable(true, 'sideMenu');
+  }
+
+  openSideMenu() {
+    this.menu.open('sideMenu');
   }
 
 }
