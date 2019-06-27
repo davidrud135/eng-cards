@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from './../auth.service';
+import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+
+import { AuthService } from './../auth.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -13,7 +15,8 @@ export class SignUpPage implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -24,8 +27,8 @@ export class SignUpPage implements OnInit {
     const {email, password} = form.value;
     this.authService.signUp(email, password).subscribe(
       resp => {
-        console.log(resp);
         this.isLoading = false;
+        this.router.navigateByUrl('');
       },
       errMessage => {
         this.isLoading = false;
