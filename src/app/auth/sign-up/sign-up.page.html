@@ -1,5 +1,10 @@
 <ion-content>
-  <form class="auth-form" #signUpForm="ngForm">
+  <ion-progress-bar type="indeterminate" *ngIf="isLoading"></ion-progress-bar>
+  <form 
+    class="auth-form" 
+    #signUpForm="ngForm"
+    *ngIf="!isLoading"
+    (ngSubmit)="onSignUp(signUpForm)">
     <ion-item>
       <ion-label position="floating">Gmail</ion-label>
       <ion-input
@@ -28,6 +33,7 @@
         minlength="6"></ion-input>
     </ion-item>
     <ion-button 
+      type="submit"
       expand="block" 
       [disabled]="!signUpForm.valid || (signUpForm.form.value.password !== signUpForm.form.value.rePassword)">Sign Up</ion-button>
     <ion-label>Already have an account? <a href="/sign-in">Sign In.</a></ion-label>
