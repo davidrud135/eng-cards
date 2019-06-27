@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError, Subject } from 'rxjs';
 import { User } from './user.model';
+import { Router } from '@angular/router';
 
 interface AuthResponseData {
   kind: string,
@@ -18,7 +19,10 @@ interface AuthResponseData {
 export class AuthService {
   user = new Subject<User>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   signUp(email: string, password: string) {
     return this.http
@@ -97,6 +101,11 @@ export class AuthService {
         break;
     };
     return throwError(errorMessage);
+  }
+
+  logout() {
+    this.user.next(null);
+    this.router.navigateByUrl('/sign-in');
   }
 
 }
