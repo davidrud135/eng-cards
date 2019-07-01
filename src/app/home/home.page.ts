@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { AuthService } from './../auth/auth.service';
 
@@ -7,7 +7,8 @@ import { AuthService } from './../auth/auth.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  userEmail: string;
 
   constructor(
     private menu: MenuController,
@@ -15,6 +16,14 @@ export class HomePage {
   ) {
     this.menu.enable(true, 'sideMenu');
     this.menu.swipeEnable(true, 'sideMenu');
+  }
+
+  ngOnInit() {
+    this.authService.user.subscribe(data => {
+      if (data) {
+        this.userEmail = data.email;
+      }
+    });
   }
 
   openSideMenu() {
