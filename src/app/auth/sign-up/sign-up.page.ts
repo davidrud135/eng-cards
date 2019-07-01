@@ -29,6 +29,7 @@ export class SignUpPage implements OnInit {
     this.authService.signUp(email, password).subscribe(
       resp => {
         this.isLoading = false;
+        this.checkToastState();
         this.router.navigateByUrl('');
       },
       errMessage => {
@@ -50,9 +51,13 @@ export class SignUpPage implements OnInit {
   }
   
   onSignInPage() {
+    this.checkToastState();
+    this.router.navigateByUrl('/sign-in');
+  }
+
+  checkToastState() {
     if (this.errorToast) {
       this.errorToast.dismiss();
     }
-    this.router.navigateByUrl('/sign-in');
   }
 }
