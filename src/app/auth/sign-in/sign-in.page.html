@@ -27,6 +27,6 @@
       type="submit"
       expand="block"
       [disabled]="!signInForm.valid">Sign In</ion-button>
-    <ion-label>Don't have an account? <a (click)="onSignUpPage()">Create one.</a></ion-label>
+    <ion-label>Don't have an account? <a routerLink="/sign-up">Create one.</a></ion-label>
   </form>
 </ion-content>
