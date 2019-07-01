@@ -1,10 +1,13 @@
 <ion-content>
-  <ion-progress-bar type="indeterminate" *ngIf="isLoading"></ion-progress-bar>
-  <form 
+  <div class="spinner" *ngIf="isLoading">
+    <ion-spinner></ion-spinner>
+  </div>
+  <form
     class="auth-form" 
     #signInForm="ngForm"
     *ngIf="!isLoading"
-    (ngSubmit)="onSignIn(signInForm)">
+    (ngSubmit)="onSignIn(signInForm)"
+  >
     <ion-item>
       <ion-label position="floating">Email</ion-label>
       <ion-input 
@@ -12,7 +15,8 @@
         name="email"
         ngModel
         required
-        email></ion-input>
+        email
+      ></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Password</ion-label>
@@ -21,12 +25,15 @@
         name="password"
         ngModel
         required
-        minlength="6"></ion-input>
+        minlength="6"
+      ></ion-input>
     </ion-item>
     <ion-button 
       type="submit"
       expand="block"
-      [disabled]="!signInForm.valid">Sign In</ion-button>
+      [disabled]="!signInForm.valid"
+    >Sign In</ion-button>
     <ion-label>Don't have an account? <a (click)="onSignUpPage()">Create one.</a></ion-label>
   </form>
 </ion-content>
+  
