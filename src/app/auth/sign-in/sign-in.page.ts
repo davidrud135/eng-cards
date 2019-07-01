@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
@@ -12,6 +12,7 @@ import { AuthService } from './../auth.service';
 })
 export class SignInPage implements OnInit {
   isLoading: boolean = false;
+  errorToast: any;
 
   constructor(
     private authService: AuthService,
@@ -39,13 +40,20 @@ export class SignInPage implements OnInit {
   }
 
   async presentToast(text: string) {
-    const toast = await this.toastController.create({
+    this.errorToast = await this.toastController.create({
       position: 'top',
       color: 'danger',
       message: text,
       showCloseButton: true
     });
-    toast.present();
+    this.errorToast.present();
+  }
+
+  onSignUpPage() {
+    if (this.errorToast) {
+      this.errorToast.dismiss();
+    }
+    this.router.navigateByUrl('sign-up');
   }
 
 }
