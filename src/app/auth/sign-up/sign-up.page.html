@@ -36,6 +36,6 @@
       type="submit"
       expand="block" 
       [disabled]="!signUpForm.valid || (signUpForm.form.value.password !== signUpForm.form.value.rePassword)">Sign Up</ion-button>
-    <ion-label>Already have an account? <a routerLink="/sign-in">Sign In.</a></ion-label>
+    <ion-label>Already have an account? <a (click)="onSignInPage()">Sign In.</a></ion-label>
   </form>
 </ion-content>

@@ -12,6 +12,7 @@ import { AuthService } from './../auth.service';
 })
 export class SignUpPage implements OnInit {
   isLoading: boolean = false;
+  errorToast: any;
 
   constructor(
     private authService: AuthService,
@@ -39,13 +40,19 @@ export class SignUpPage implements OnInit {
   }
 
   async presentToast(text: string) {
-    const toast = await this.toastController.create({
+    this.errorToast = await this.toastController.create({
       position: 'top',
       color: 'danger',
       message: text,
       showCloseButton: true
     });
-    toast.present();
+    this.errorToast.present();
   }
   
+  onSignInPage() {
+    if (this.errorToast) {
+      this.errorToast.dismiss();
+    }
+    this.router.navigateByUrl('/sign-in');
+  }
 }
