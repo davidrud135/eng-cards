@@ -6,11 +6,11 @@ import { ToastController } from '@ionic/angular';
 import { AuthService } from './../auth.service';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.page.html',
-  styleUrls: ['./sign-up.page.scss'],
+  selector: 'app-sign-in',
+  templateUrl: './sign-in.component.html',
+  styleUrls: ['../auth.page.scss'],
 })
-export class SignUpPage implements OnInit {
+export class SignInComponent implements OnInit {
   isLoading: boolean = false;
   errorToast: any;
 
@@ -23,10 +23,10 @@ export class SignUpPage implements OnInit {
   ngOnInit() {
   }
 
-  onSignUp(form: NgForm) {
+  onSignIn(form: NgForm) {
     this.isLoading = true;
     const {email, password} = form.value;
-    this.authService.signUp(email, password).subscribe(
+    this.authService.signIn(email, password).subscribe(
       resp => {
         this.isLoading = false;
         this.checkToastState();
@@ -49,10 +49,10 @@ export class SignUpPage implements OnInit {
     });
     this.errorToast.present();
   }
-  
-  onSignInPage() {
+
+  onSignUpPage() {
     this.checkToastState();
-    this.router.navigateByUrl('/sign-in');
+    this.router.navigateByUrl('/auth/sign-up');
   }
 
   checkToastState() {
