@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '../auth.service';
-import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
+
+import { AuthService } from './../auth.service';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['../auth.page.scss'],
+  selector: 'app-sign-in',
+  templateUrl: './sign-in.page.html',
+  styleUrls: ['./sign-in.page.scss'],
 })
-export class SignUpComponent implements OnInit {
+export class SignInPage implements OnInit {
   isLoading: boolean = false;
   errorToast: any;
 
@@ -22,10 +23,10 @@ export class SignUpComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSignUp(form: NgForm) {
+  onSignIn(form: NgForm) {
     this.isLoading = true;
     const {email, password} = form.value;
-    this.authService.signUp(email, password).subscribe(
+    this.authService.signIn(email, password).subscribe(
       resp => {
         this.isLoading = false;
         this.checkToastState();
@@ -48,10 +49,10 @@ export class SignUpComponent implements OnInit {
     });
     this.errorToast.present();
   }
-  
-  onSignInPage() {
+
+  onSignUpPage() {
     this.checkToastState();
-    this.router.navigateByUrl('/auth');
+    this.router.navigateByUrl('/sign-up');
   }
 
   checkToastState() {
