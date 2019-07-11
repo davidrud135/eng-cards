@@ -8,7 +8,7 @@ import { AuthService } from './../auth.service';
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.page.html',
-  styleUrls: ['./sign-in.page.scss'],
+  styleUrls: ['../auth.scss'],
 })
 export class SignInPage implements OnInit {
   isLoading: boolean = false;
