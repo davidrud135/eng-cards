@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
@@ -11,6 +11,7 @@ import { AuthService } from './../auth.service';
   styleUrls: ['../auth.scss'],
 })
 export class SignUpPage implements OnInit {
+  signUpForm: FormGroup;
   isLoading: boolean = false;
   errorToast: any;
 
@@ -21,12 +22,35 @@ export class SignUpPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.signUpForm = new FormGroup({
+      email: new FormControl(
+        null,
+        [Validators.required, Validators.email]
+      ),
+      pass: new FormControl(
+        null,
+        [Validators.required, Validators.minLength(6)]
+      ),
+      rePass: new FormControl(
+        null,
+        [Validators.required, Validators.minLength(6)]
+      )
+    }, {validators: this.checkPasswords});
   }
 
-  onSignUp(form: NgForm) {
+  checkPasswords(formGroup: FormGroup) {
+    let {pass, rePass} = formGroup.value;
+    return pass === rePass ? null : { passesMismatch: true };    
+  }
+
+  onSignUp() {
+    if (this.signUpForm.invalid) {
+      this.presentToast('Invalid form data.');
+      return;
+    }
     this.isLoading = true;
-    const {email, password} = form.value;
-    this.authService.signUp(email, password).subscribe(
+    const {email, pass} = this.signUpForm.value;
+    this.authService.signUp(email, pass).subscribe(
       resp => {
         this.isLoading = false;
         this.checkToastState();
@@ -37,10 +61,11 @@ export class SignUpPage implements OnInit {
         this.presentToast(errMessage);
       }
     );
-    form.reset();
+    this.signUpForm.reset();
   }
 
   async presentToast(text: string) {
+    this.checkToastState();
     this.errorToast = await this.toastController.create({
       position: 'top',
       color: 'danger',
@@ -50,7 +75,7 @@ export class SignUpPage implements OnInit {
     this.errorToast.present();
   }
   
-  onSignInPage() {
+  toSignInPage() {
     this.checkToastState();
     this.router.navigateByUrl('/sign-in');
   }

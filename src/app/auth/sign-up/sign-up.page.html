@@ -2,48 +2,62 @@
   <div class="spinner" *ngIf="isLoading">
     <ion-spinner></ion-spinner>
   </div>
-  <form 
-    class="auth-form" 
-    #signUpForm="ngForm"
-    *ngIf="!isLoading"
-    (ngSubmit)="onSignUp(signUpForm)"
-  >
-    <h1>Sign Up</h1>
-    <ion-item>
-      <ion-label position="floating">Gmail</ion-label>
-      <ion-input
-        type="email"
-        name="email"
-        ngModel
-        required
-        email
-      ></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input 
-        type="password"
-        name="password"
-        ngModel
-        required
-        minlength="6"
-      ></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Repeat Password</ion-label>
-      <ion-input 
-        type="password"
-        name="rePassword"
-        ngModel
-        required
-        minlength="6"
-      ></ion-input>
-    </ion-item>
-    <ion-button 
-      type="submit"
-      expand="block" 
-      [disabled]="!signUpForm.valid || (signUpForm.form.value.password !== signUpForm.form.value.rePassword)"
-    >Sign Up</ion-button>
-    <ion-label>Already have an account? <a (click)="onSignInPage()">Sign In.</a></ion-label>
-  </form>
+  <ion-list lines="full" *ngIf="!isLoading">
+    <form 
+      class="auth-form"
+      [formGroup]="signUpForm"
+      (ngSubmit)="onSignUp()">
+        <h1>Register</h1>
+        <ion-item>
+          <ion-label 
+            position="stacked" 
+            color="danger"
+            *ngIf="signUpForm.get('email').invalid && signUpForm.get('email').dirty">
+            Email is not valid
+          </ion-label>
+          <ion-icon slot="start" name="mail"></ion-icon>
+          <ion-input
+            type="email"
+            placeholder="Email"
+            formControlName="email">
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label 
+            position="stacked" 
+            color="danger"
+            *ngIf="signUpForm.get('pass').invalid && signUpForm.get('pass').dirty">
+            At least 6 characters
+          </ion-label>
+          <ion-icon slot="start" name="lock"></ion-icon>
+          <ion-input 
+            type="password"
+            placeholder="Password"
+            formControlName="pass">
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label
+            position="stacked" 
+            color="danger"
+            *ngIf="signUpForm.hasError('passesMismatch') && signUpForm.get('rePass').dirty">
+            Passwords do not match
+          </ion-label>
+          <ion-icon slot="start" name="lock"></ion-icon>
+          <ion-input 
+            type="password"
+            formControlName="rePass"
+            placeholder="Repeat password"
+            (keyup.enter)="onSignUp()">
+          </ion-input>
+        </ion-item>
+        <ion-button 
+          type="submit"
+          expand="block" 
+          [disabled]="signUpForm.invalid">
+          Sign Up
+        </ion-button>
+        <ion-label>Already have an account? <a (click)="toSignInPage()">Sign In.</a></ion-label>
+    </form>
+  </ion-list>
 </ion-content>

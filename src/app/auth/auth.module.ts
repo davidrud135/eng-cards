@@ -1,6 +1,6 @@
 import { IonicModule } from '@ionic/angular';
 import { Routes, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
@@ -19,9 +19,10 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class AuthModule {}

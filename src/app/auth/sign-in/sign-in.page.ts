@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { AuthService } from './../auth.service';
 
@@ -11,6 +11,7 @@ import { AuthService } from './../auth.service';
   styleUrls: ['../auth.scss'],
 })
 export class SignInPage implements OnInit {
+  signInForm: FormGroup;
   isLoading: boolean = false;
   errorToast: any;
 
@@ -21,12 +22,26 @@ export class SignInPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.signInForm = new FormGroup({
+      email: new FormControl(
+        null,
+        [Validators.required, Validators.email]
+      ),
+      pass: new FormControl(
+        null,
+        [Validators.required, Validators.minLength(6)]
+      )
+    });
   }
 
-  onSignIn(form: NgForm) {
+  onSignIn() {
+    if (this.signInForm.invalid) {
+      this.presentToast('Invalid form data.');
+      return;
+    }
     this.isLoading = true;
-    const {email, password} = form.value;
-    this.authService.signIn(email, password).subscribe(
+    const {email, pass} = this.signInForm.value;
+    this.authService.signIn(email, pass).subscribe(
       resp => {
         this.isLoading = false;
         this.checkToastState();
@@ -37,10 +52,11 @@ export class SignInPage implements OnInit {
         this.presentToast(errMessage);
       }
     );
-    form.reset();
+    this.signInForm.reset();
   }
 
   async presentToast(text: string) {
+    this.checkToastState();
     this.errorToast = await this.toastController.create({
       position: 'top',
       color: 'danger',
@@ -50,7 +66,7 @@ export class SignInPage implements OnInit {
     this.errorToast.present();
   }
 
-  onSignUpPage() {
+  toSignUpPage() {
     this.checkToastState();
     this.router.navigateByUrl('/sign-up');
   }

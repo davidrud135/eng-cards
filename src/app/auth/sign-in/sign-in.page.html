@@ -2,39 +2,49 @@
   <div class="spinner" *ngIf="isLoading">
     <ion-spinner></ion-spinner>
   </div>
-  <form
-    class="auth-form" 
-    #signInForm="ngForm"
-    *ngIf="!isLoading"
-    (ngSubmit)="onSignIn(signInForm)"
-  >
-    <h1>Sign In</h1>
-    <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input 
-        type="email"
-        name="email"
-        ngModel
-        required
-        email
-      ></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input 
-        type="password"
-        name="password"
-        ngModel
-        required
-        minlength="6"
-      ></ion-input>
-    </ion-item>
-    <ion-button 
-      type="submit"
-      expand="block"
-      [disabled]="!signInForm.valid"
-    >Sign In</ion-button>
-    <ion-label>Don't have an account? <a (click)="onSignUpPage()">Create one.</a></ion-label>
-  </form>
+  <ion-list lines="full" *ngIf="!isLoading">
+    <form
+      class="auth-form" 
+      [formGroup]="signInForm"
+      (ngSubmit)="onSignIn()">
+      <h1>Login</h1>
+      <ion-item>
+        <ion-label 
+          position="stacked" 
+          color="danger"
+          *ngIf="signInForm.get('email').invalid && signInForm.get('email').dirty">
+          Email is not valid
+        </ion-label>
+        <ion-icon slot="start" name="mail"></ion-icon>
+        <ion-input 
+          type="email"
+          placeholder="Email"
+          formControlName="email">
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label 
+          position="stacked" 
+          color="danger"
+          *ngIf="signInForm.get('pass').invalid && signInForm.get('pass').dirty">
+          At least 6 characters
+        </ion-label>
+        <ion-icon slot="start" name="lock"></ion-icon>
+        <ion-input 
+          type="password"
+          placeholder="Password"
+          formControlName="pass"
+          (keyup.enter)="onSignIn()">
+        </ion-input>
+      </ion-item>
+      <ion-button 
+        type="submit"
+        expand="block"
+        [disabled]="signInForm.invalid">
+        Sign In
+      </ion-button>
+      <ion-label>Don't have an account? <a (click)="toSignUpPage()">Create one.</a></ion-label>
+    </form>
+  </ion-list>
 </ion-content>
   
