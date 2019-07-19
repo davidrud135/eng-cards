@@ -1,3 +1,4 @@
+import { Router, NavigationExtras } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ModalController, IonContent, NavParams, AlertController } from '@ionic/angular';
@@ -28,7 +29,8 @@ export class UnitModalComponent implements OnInit {
     private navParams: NavParams,
     private dbService: DBService,
     private modalCtrl: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -44,6 +46,18 @@ export class UnitModalComponent implements OnInit {
     this.newCardForm = new FormGroup({
       word: new FormControl(null, Validators.required),
       translation: new FormControl(null, Validators.required)
+    });
+  }
+
+  onUnitLearn() {
+    let unitData: NavigationExtras = {
+      queryParams: {
+        unitId: this.unitId,
+        unitTitle: this.unitTitle
+      }
+    }
+    this.modalCtrl.dismiss().then(() => {
+      this.router.navigate(['learn'], unitData);
     });
   }
 
