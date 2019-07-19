@@ -1,0 +1,14 @@
+<div class="card-wrapper">
+  <div class="card-box" (click)="toggleFlip()" [@flipState]="flip">
+    <div class="card-box-side front">
+      <ion-label wrap-text>
+        {{card.wordText}}
+      </ion-label>
+    </div>
+    <div class="card-box-side back">
+      <ion-label wrap-text>
+        {{card.wordTranslation}}
+      </ion-label>
+    </div>
+  </div>
+</div>
