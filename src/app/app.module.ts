@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { environment } from "src/environments/environment";
@@ -26,7 +27,8 @@ import { UnitModalComponent } from './dashboard/unit-modal/unit-modal.component'
     UnitModalComponent
   ],
   imports: [
-    BrowserModule, 
+    BrowserModule,
+    BrowserAnimationsModule,
     IonicModule.forRoot(), 
     AppRoutingModule,
     HttpClientModule,
