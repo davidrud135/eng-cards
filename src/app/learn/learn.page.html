@@ -1,9 +1,13 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>learn</ion-title>
+    <ion-title>{{unitTitle}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-slides pager="true" [options]="slideOpts">
+    <ion-slide *ngFor="let card of cards$ | async">
+      <app-flip-card [card]="card"></app-flip-card>
+    </ion-slide>
+  </ion-slides>
 </ion-content>

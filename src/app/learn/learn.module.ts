@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { LearnPage } from './learn.page';
+import { FlipCardComponent } from './flip-card/flip-card.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [LearnPage]
+  declarations: [LearnPage, FlipCardComponent]
 })
 export class LearnPageModule {}
