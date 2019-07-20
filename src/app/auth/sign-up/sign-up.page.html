@@ -9,40 +9,33 @@
       (ngSubmit)="onSignUp()">
         <h1>Register</h1>
         <ion-item>
-          <ion-label 
-            position="stacked" 
-            color="danger"
-            *ngIf="signUpForm.get('email').invalid && signUpForm.get('email').dirty">
-            Email is not valid
-          </ion-label>
           <ion-icon slot="start" name="mail"></ion-icon>
           <ion-input
             type="email"
             placeholder="Email"
             formControlName="email">
           </ion-input>
+          <ion-icon 
+            slot="end"
+            [name]="signUpForm.get('email').valid ? 'checkmark' : 'close'" 
+            [color]="signUpForm.get('email').valid ? 'success' : 'danger'" 
+            *ngIf="signUpForm.get('email').dirty"></ion-icon>
         </ion-item>
         <ion-item>
-          <ion-label 
-            position="stacked" 
-            color="danger"
-            *ngIf="signUpForm.get('pass').invalid && signUpForm.get('pass').dirty">
-            At least 6 characters
-          </ion-label>
           <ion-icon slot="start" name="lock"></ion-icon>
           <ion-input 
             type="password"
             placeholder="Password"
             formControlName="pass">
           </ion-input>
+          <ion-note 
+            slot="end" 
+            [color]="signUpForm.get('pass').invalid ? 'danger' : 'success'"
+            *ngIf="signUpForm.get('pass').dirty">
+            {{signUpForm.get('pass').value.length}} / 6
+          </ion-note>
         </ion-item>
         <ion-item>
-          <ion-label
-            position="stacked" 
-            color="danger"
-            *ngIf="signUpForm.hasError('passesMismatch') && signUpForm.get('rePass').dirty">
-            Passwords do not match
-          </ion-label>
           <ion-icon slot="start" name="lock"></ion-icon>
           <ion-input 
             type="password"
@@ -50,6 +43,11 @@
             placeholder="Repeat password"
             (keyup.enter)="onSignUp()">
           </ion-input>
+          <ion-icon 
+            slot="end"
+            [name]="signUpForm.hasError('passesMismatch') ? 'close' : 'done-all'" 
+            [color]="signUpForm.hasError('passesMismatch') ? 'danger' : 'success'" 
+            *ngIf="signUpForm.get('rePass').dirty"></ion-icon>
         </ion-item>
         <ion-button 
           type="submit"
