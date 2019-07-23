@@ -1,34 +1,39 @@
-.card-wrapper {
-  perspective: 800px;
+.card-container {
+  perspective: 1000px;
 
-  .card-box {
+  .card-flipper {
     position: relative;
-    width: 200px;
-    height: 100px;
-    margin: 3rem auto;
+    transition: 0.5s;
     transform-style: preserve-3d;
-    transition: transform 1s;
 
-    .card-box-side {
-      width: 200px;
-      height: 200px;
-      position: absolute;
+    .front, .back {
       backface-visibility: hidden;
-      text-align: center;
-      line-height: 200px;
-      font-size: 24px;
-      font-weight: 700;
-      cursor: pointer;
-      user-select: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: #fff;
+      color: #000;
       border-radius: 10px;
-      background: white;
+      line-height: 200px;
     }
     .front {
-      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      z-index: 2;
+      transform: rotateY(0deg);
     }
     .back {
-      font-family: 'Courier New', Courier, monospace;
-      transform: rotateY(179.9deg);
+      transform: rotateY(-180deg);
     }
   }
+}
+
+.card-container.flipped .card-flipper,
+.card-container.flipped .card-flipper {
+  transform: rotateY(-180deg);
+}
+
+.card-container,
+.front,
+.back {
+  width: 200px;
+  height: 200px;
 }

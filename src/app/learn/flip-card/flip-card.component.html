@@ -1,14 +1,10 @@
-<div class="card-wrapper">
-  <div class="card-box" (click)="toggleFlip()" [@flipState]="flip">
-    <div class="card-box-side front">
-      <ion-label color="primary">
-        {{card.wordText}}
-      </ion-label>
+<div class="card-container" [ngClass]="{'flipped': isFlipped}" (click)="toggleFlip()">
+  <div class="card-flipper">
+    <div class="front">
+      {{card.wordText}}
     </div>
-    <div class="card-box-side back">
-      <ion-label color="primary">
-        {{card.wordTranslation}}
-      </ion-label>
+    <div class="back">
+      {{card.wordTranslation}}
     </div>
   </div>
 </div>
