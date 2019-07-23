@@ -15,7 +15,6 @@ export class HomePage implements OnInit {
     private authService: AuthService
   ) {
     this.menu.enable(true, 'sideMenu');
-    this.menu.swipeEnable(true, 'sideMenu');
   }
 
   ngOnInit() {

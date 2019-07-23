@@ -20,15 +20,15 @@
 
   <ion-content>
     <ion-list>
-      <ion-item>
+      <ion-item button="true">
         <ion-icon name="person" slot="start"></ion-icon>
         <ion-label>Profile</ion-label>
       </ion-item>
-      <ion-item>
+      <ion-item button="true">
         <ion-icon name="settings" slot="start"></ion-icon>
         <ion-label>Settings</ion-label>
       </ion-item>
-      <ion-item (click)="onLogout()">
+      <ion-item button="true" (click)="onLogout()">
         <ion-icon name="log-out" slot="start"></ion-icon>
         <ion-label>Log Out</ion-label>
       </ion-item>
@@ -41,6 +41,6 @@
 <ion-content>
   <div class="home-main-block">
     <h1 class="app-title">EngCards</h1>
-    <ion-button expand="block">Learn</ion-button>
+    <ion-button expand="block" routerLink="/dashboard">Start</ion-button>
   </div>
 </ion-content>

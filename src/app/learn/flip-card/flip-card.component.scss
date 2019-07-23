@@ -1,0 +1,39 @@
+.card-container {
+  perspective: 1000px;
+
+  .card-flipper {
+    position: relative;
+    transition: 0.5s;
+    transform-style: preserve-3d;
+
+    .front, .back {
+      backface-visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: #fff;
+      color: #000;
+      border-radius: 10px;
+      line-height: 200px;
+    }
+    .front {
+      z-index: 2;
+      transform: rotateY(0deg);
+    }
+    .back {
+      transform: rotateY(-180deg);
+    }
+  }
+}
+
+.card-container.flipped .card-flipper,
+.card-container.flipped .card-flipper {
+  transform: rotateY(-180deg);
+}
+
+.card-container,
+.front,
+.back {
+  width: 200px;
+  height: 200px;
+}

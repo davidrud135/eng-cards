@@ -1,0 +1,10 @@
+<div class="card-container" [ngClass]="{'flipped': isFlipped}" (click)="toggleFlip()">
+  <div class="card-flipper">
+    <div class="front">
+      {{card.wordText}}
+    </div>
+    <div class="back">
+      {{card.wordTranslation}}
+    </div>
+  </div>
+</div>

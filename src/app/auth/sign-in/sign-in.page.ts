@@ -24,11 +24,11 @@ export class SignInPage implements OnInit {
   ngOnInit() {
     this.signInForm = new FormGroup({
       email: new FormControl(
-        null,
+        '',
         [Validators.required, Validators.email]
       ),
       pass: new FormControl(
-        null,
+        '',
         [Validators.required, Validators.minLength(6)]
       )
     });

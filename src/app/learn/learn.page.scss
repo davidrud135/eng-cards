@@ -1,0 +1,9 @@
+ion-slides {
+  height: 100%;
+  --bullet-background: rgb(200, 200, 200);
+  --bullet-background-active: white;
+
+  app-flip-card {
+    margin-top: -100px;
+  }
+}
