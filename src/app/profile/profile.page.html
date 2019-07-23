@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{userEmail}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item button="true">
+      <ion-icon name="settings" slot="start"></ion-icon>
+      <ion-label>Settings</ion-label>
+    </ion-item>
+    <ion-item button="true" (click)="onLogout()">
+      <ion-icon name="log-out" slot="start"></ion-icon>
+      <ion-label>Log Out</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
