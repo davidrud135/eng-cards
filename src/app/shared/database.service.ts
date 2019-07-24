@@ -6,22 +6,23 @@ import { map } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { Unit } from './models/unit.model';
 import { Card } from './models/card.model';
+import { User } from '../auth/user.model';
 
 @Injectable({providedIn: 'root'})
 export class DBService {
-  private unitsCollectionRef: AngularFirestoreCollection<Unit>;
   private userId: string;
 
   constructor(
     private authService: AuthService,
     private afs: AngularFirestore
   ) {
-    this.userId = this.authService.user.value.id;
-    this.unitsCollectionRef = afs.collection(`users/${this.userId}/units`);
+    this.authService.user.subscribe((resp: User) => {
+      this.userId = resp ? resp.id : null;
+    });
   }
 
   getUnits(): Observable<Unit[]> {
-    return this.unitsCollectionRef.snapshotChanges()
+    return this.afs.collection(`users/${this.userId}/units`).snapshotChanges()
       .pipe(
         map(snapshot => {
           return snapshot.map((unitFirebaseResp: {payload: any}) => {
@@ -34,7 +35,7 @@ export class DBService {
   }
 
   getUnitCards(unitId: string): Observable<Card[]> {
-    return this.unitsCollectionRef.doc(unitId).collection('cards').snapshotChanges()
+    return this.afs.collection(`users/${this.userId}/units/${unitId}/cards`).snapshotChanges()
       .pipe(
         map(snapshot => {
           return snapshot.map((cardFirebaseResp: {payload: any}) => {
@@ -47,19 +48,19 @@ export class DBService {
   }
 
   addUnit(unitTitle: string): Promise<any> {
-    return this.unitsCollectionRef.add({
+    return this.afs.collection(`users/${this.userId}/units`).add({
       title: unitTitle
     });
   }
 
   editUnit(unitId: string, newTitle: string): Promise<any> {
-    return this.unitsCollectionRef.doc(unitId).update({
+    return this.afs.doc(`users/${this.userId}/units/${unitId}`).update({
       title: newTitle
     });
   }
 
   removeUnit(unitId: string): Promise<any> {
-    return this.unitsCollectionRef.doc(unitId).delete();
+    return this.afs.doc(`users/${this.userId}/units/${unitId}`).delete();
   }
 
   addCardToUnit(unitId: string, word: string, translation: string): Promise<any> {
