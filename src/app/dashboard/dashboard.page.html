@@ -13,21 +13,34 @@
   <ion-list>
     <ion-item lines="full" *ngIf="isNewUnitFormDisplayable">
       <ion-note slot="start">Title:</ion-note>
-        <form #newUnitForm="ngForm">
-          <ion-input type="text" name="title" ngModel required></ion-input>
-        </form>
-        <ion-button fill="outline" slot="end" (click)="hideNewUnitForm()">
-          <ion-icon name="close"></ion-icon>
-        </ion-button>
-        <ion-button slot="end" (click)="onUnitCreate(newUnitForm)" [disabled]="newUnitForm.invalid">
-          <ion-icon name="checkmark"></ion-icon>
-        </ion-button>
+      <form #newUnitForm="ngForm">
+        <ion-input type="text" name="title" ngModel required></ion-input>
+      </form>
+      <ion-button fill="outline" slot="end" (click)="hideNewUnitForm()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+      <ion-button
+        slot="end"
+        (click)="onUnitCreate(newUnitForm)"
+        [disabled]="newUnitForm.invalid"
+      >
+        <ion-icon name="checkmark"></ion-icon>
+      </ion-button>
     </ion-item>
     <ion-list-header>
       <ion-label>Units</ion-label>
     </ion-list-header>
-    <ion-item *ngFor="let unit of units$ | async" button="true" (click)="openUnitModal(unit)">
-      <ion-label>{{unit.title}}</ion-label>
+    <ion-item lines="none" *ngIf="unitsAmount === 0; else unitsListRef">
+      <ion-note>No units. Press + to create one.</ion-note>
     </ion-item>
+    <ng-template #unitsListRef>
+      <ion-item
+        *ngFor="let unit of units$ | async"
+        button="true"
+        (click)="openUnitModal(unit)"
+      >
+        <ion-label>{{ unit.title }}</ion-label>
+      </ion-item>
+    </ng-template>
   </ion-list>
 </ion-content>
