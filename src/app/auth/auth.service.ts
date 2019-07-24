@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, tap } from 'rxjs/operators';
+import { NavController } from '@ionic/angular';
 import { throwError, BehaviorSubject } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+
 import { User } from './user.model';
-import { Router } from '@angular/router';
 
 interface AuthResponseData {
   kind: string,
@@ -22,7 +23,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private navCtrl: NavController
   ) {}
 
   signUp(email: string, password: string) {
@@ -103,7 +104,7 @@ export class AuthService {
 
   logout() {
     this.user.next(null);
-    this.router.navigateByUrl('/sign-in');
+    this.navCtrl.navigateRoot('/sign-in');
     localStorage.removeItem('userAuthData');
     if (!this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);

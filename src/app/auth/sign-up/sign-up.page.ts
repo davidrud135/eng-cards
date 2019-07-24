@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastController, NavController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
 
 import { AuthService } from './../auth.service';
 
@@ -18,7 +17,7 @@ export class SignUpPage implements OnInit {
   constructor(
     private authService: AuthService,
     private toastController: ToastController,
-    private router: Router
+    private navCtrl: NavController
   ) { }
 
   ngOnInit() {
@@ -52,9 +51,9 @@ export class SignUpPage implements OnInit {
     const {email, pass} = this.signUpForm.value;
     this.authService.signUp(email, pass).subscribe(
       resp => {
-        this.isLoading = false;
         this.checkToastState();
-        this.router.navigateByUrl('');
+        this.navCtrl.navigateRoot('');
+        this.isLoading = false;
       },
       errMessage => {
         this.isLoading = false;
@@ -77,7 +76,7 @@ export class SignUpPage implements OnInit {
   
   toSignInPage() {
     this.checkToastState();
-    this.router.navigateByUrl('/sign-in');
+    this.navCtrl.navigateBack('/sign-in');
   }
 
   checkToastState() {
