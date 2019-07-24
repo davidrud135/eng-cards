@@ -29,12 +29,6 @@
           formControlName="pass"
           (keyup.enter)="onSignIn()">
         </ion-input>
-        <ion-note 
-          slot="end" 
-          [color]="signInForm.get('pass').invalid ? 'danger' : 'success'"
-          *ngIf="signInForm.get('pass').dirty">
-          {{signInForm.get('pass').value.length}} / 6
-        </ion-note>
       </ion-item>
       <ion-button 
         type="submit"
