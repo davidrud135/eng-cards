@@ -11,19 +11,19 @@ import { AuthService } from './../auth.service';
 })
 export class SignInPage implements OnInit {
   signInForm: FormGroup;
-  isLoading: boolean = false;
+  isLoading = false;
   errorToast: any;
 
   constructor(
     private authService: AuthService,
     private toastController: ToastController,
-    private navCtrl: NavController
-  ) { }
+    private navCtrl: NavController,
+  ) {}
 
   ngOnInit() {
     this.signInForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      pass: new FormControl('', Validators.required)
+      pass: new FormControl('', Validators.required),
     });
   }
 
@@ -33,17 +33,17 @@ export class SignInPage implements OnInit {
       return;
     }
     this.isLoading = true;
-    const {email, pass} = this.signInForm.value;
+    const { email, pass } = this.signInForm.value;
     this.authService.signIn(email, pass).subscribe(
-      resp => {
+      () => {
         this.checkToastState();
         this.navCtrl.navigateRoot('');
         this.isLoading = false;
       },
-      errMessage => {
+      (errMessage: string) => {
         this.isLoading = false;
         this.presentToast(errMessage);
-      }
+      },
     );
     this.signInForm.reset();
   }
@@ -54,7 +54,7 @@ export class SignInPage implements OnInit {
       position: 'top',
       color: 'danger',
       message: text,
-      showCloseButton: true
+      showCloseButton: true,
     });
     this.errorToast.present();
   }

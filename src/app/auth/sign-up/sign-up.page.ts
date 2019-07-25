@@ -11,35 +11,29 @@ import { AuthService } from './../auth.service';
 })
 export class SignUpPage implements OnInit {
   signUpForm: FormGroup;
-  isLoading: boolean = false;
+  isLoading = false;
   errorToast: any;
 
   constructor(
     private authService: AuthService,
     private toastController: ToastController,
-    private navCtrl: NavController
-  ) { }
+    private navCtrl: NavController,
+  ) {}
 
   ngOnInit() {
-    this.signUpForm = new FormGroup({
-      email: new FormControl(
-        '',
-        [Validators.required, Validators.email]
-      ),
-      pass: new FormControl(
-        '',
-        [Validators.required, Validators.minLength(6)]
-      ),
-      rePass: new FormControl(
-        '',
-        [Validators.required, Validators.minLength(6)]
-      )
-    }, {validators: this.checkPasswords});
+    this.signUpForm = new FormGroup(
+      {
+        email: new FormControl('', [Validators.required, Validators.email]),
+        pass: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        rePass: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      },
+      { validators: this.checkPasswords },
+    );
   }
 
   checkPasswords(formGroup: FormGroup) {
-    let {pass, rePass} = formGroup.value;
-    return pass === rePass ? null : { passesMismatch: true };    
+    const { pass, rePass } = formGroup.value;
+    return pass === rePass ? null : { passesMismatch: true };
   }
 
   onSignUp() {
@@ -48,17 +42,17 @@ export class SignUpPage implements OnInit {
       return;
     }
     this.isLoading = true;
-    const {email, pass} = this.signUpForm.value;
+    const { email, pass } = this.signUpForm.value;
     this.authService.signUp(email, pass).subscribe(
-      resp => {
+      () => {
         this.checkToastState();
         this.navCtrl.navigateRoot('');
         this.isLoading = false;
       },
-      errMessage => {
+      (errMessage: string) => {
         this.isLoading = false;
         this.presentToast(errMessage);
-      }
+      },
     );
     this.signUpForm.reset();
   }
@@ -69,11 +63,11 @@ export class SignUpPage implements OnInit {
       position: 'top',
       color: 'danger',
       message: text,
-      showCloseButton: true
+      showCloseButton: true,
     });
     this.errorToast.present();
   }
-  
+
   toSignInPage() {
     this.checkToastState();
     this.navCtrl.navigateBack('/sign-in');

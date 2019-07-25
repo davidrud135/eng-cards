@@ -5,77 +5,72 @@ import { throwError, BehaviorSubject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { User } from './user.model';
+import { environment } from 'src/environments/environment';
 
 interface AuthResponseData {
-  kind: string,
-  idToken: string,
-  email: string,
-  refreshToken: string,
-  expiresIn: string,
-  localId: string,
-  registered?: boolean
+  kind: string;
+  idToken: string;
+  email: string;
+  refreshToken: string;
+  expiresIn: string;
+  localId: string;
+  registered?: boolean;
 }
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
+  private FIREBASE_URL =
+    'https://www.googleapis.com/identitytoolkit/v3/relyingparty';
   user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
 
-  constructor(
-    private http: HttpClient,
-    private navCtrl: NavController
-  ) {}
+  constructor(private http: HttpClient, private navCtrl: NavController) {}
 
   signUp(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyDPCOezFSIj07NO924GvlsLDIA-1doYz7s',
-        {
-          email: email,
-          password: password,
-          returnSecureToken: true
-        }
+        `${this.FIREBASE_URL}/signupNewUser?key=${environment.firebaseConfig.apiKey}`,
+        { email, password, returnSecureToken: true },
       )
       .pipe(
         catchError(this.handleAuthError),
-        tap(resp => {
+        tap((resp: AuthResponseData) => {
           this.handleAuthentication(
             resp.localId,
             resp.email,
             resp.idToken,
-            +resp.expiresIn
+            +resp.expiresIn,
           );
-        })
+        }),
       );
   }
 
   signIn(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyDPCOezFSIj07NO924GvlsLDIA-1doYz7s',
-        {
-          email: email,
-          password: password,
-          returnSecureToken: true
-        }
+        `${this.FIREBASE_URL}/verifyPassword?key=${environment.firebaseConfig.apiKey}`,
+        { email, password, returnSecureToken: true },
       )
       .pipe(
         catchError(this.handleAuthError),
-        tap(resp => {
+        tap((resp: AuthResponseData) => {
           this.handleAuthentication(
             resp.localId,
             resp.email,
             resp.idToken,
-            +resp.expiresIn
+            +resp.expiresIn,
           );
-        })
+        }),
       );
   }
 
-  handleAuthentication(id: string, email: string, token: string, expiresIn: number) {
-    const expirationDate = new Date(
-      new Date().getTime() + expiresIn * 1000
-    );
+  handleAuthentication(
+    id: string,
+    email: string,
+    token: string,
+    expiresIn: number,
+  ) {
+    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(id, email, token, expirationDate);
     this.user.next(user);
     this.autoLogout(expiresIn * 1000);
@@ -98,7 +93,7 @@ export class AuthService {
       case 'INVALID_PASSWORD':
         errorMessage = 'Wrong email or password.';
         break;
-    };
+    }
     return throwError(errorMessage);
   }
 
@@ -115,15 +110,15 @@ export class AuthService {
   autoLogout(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
-    }, expirationDuration);
+    },                                     expirationDuration);
   }
 
   autoLogin() {
     const userAuthData: {
-      id: string,
-      email: string,
-      _token: string,
-      _tokenExpirationDate: string
+      id: string;
+      email: string;
+      _token: string;
+      _tokenExpirationDate: string;
     } = JSON.parse(localStorage.getItem('userAuthData'));
     if (!userAuthData) {
       return;
@@ -133,15 +128,14 @@ export class AuthService {
       userAuthData.id,
       userAuthData.email,
       userAuthData._token,
-      new Date(userAuthData._tokenExpirationDate)
+      new Date(userAuthData._tokenExpirationDate),
     );
     if (loadedUser.token) {
       this.user.next(loadedUser);
-      const expirationDuration = 
-        new Date(userAuthData._tokenExpirationDate).getTime() - 
+      const expirationDuration =
+        new Date(userAuthData._tokenExpirationDate).getTime() -
         new Date().getTime();
       this.autoLogout(expirationDuration);
     }
   }
-
 }

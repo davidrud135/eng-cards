@@ -14,12 +14,12 @@ import { Card } from 'src/app/shared/models/card.model';
 })
 export class UnitModalComponent implements OnInit {
   @ViewChild(IonContent) content: IonContent;
-  isEditMode: boolean = false;
+  isEditMode = false;
   unitId: string;
   unitTitle: string;
   cards$: Observable<Card[]>;
   cardsAmount: number;
-  isNewCardFormDisplayable: boolean = false;
+  isNewCardFormDisplayable = false;
   expandedCardId: string = null;
   unitTitleForm: FormGroup;
   newCardForm: FormGroup;
@@ -30,40 +30,40 @@ export class UnitModalComponent implements OnInit {
     private dbService: DBService,
     private modalCtrl: ModalController,
     private alertController: AlertController,
-    private router: Router
-  ) { }
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.unitId = this.navParams.get('unit').id;
     this.unitTitle = this.navParams.get('unit').title;
     this.cards$ = this.dbService.getUnitCards(this.unitId);
-    this.cards$.subscribe(resp => {
+    this.cards$.subscribe((resp: Card[]) => {
       this.cardsAmount = resp.length;
     });
     this.unitTitleForm = new FormGroup({
-      title: new FormControl(this.unitTitle, Validators.required)
+      title: new FormControl(this.unitTitle, Validators.required),
     });
     this.newCardForm = new FormGroup({
       word: new FormControl(null, Validators.required),
-      translation: new FormControl(null, Validators.required)
+      translation: new FormControl(null, Validators.required),
     });
   }
 
   onUnitLearn() {
-    let unitData: NavigationExtras = {
+    const unitData: NavigationExtras = {
       queryParams: {
         unitId: this.unitId,
-        unitTitle: this.unitTitle
-      }
-    }
+        unitTitle: this.unitTitle,
+      },
+    };
     this.modalCtrl.dismiss().then(() => {
       this.router.navigate(['learn'], unitData);
     });
   }
 
   onUnitDone() {
-    const {title: newTitle} = this.unitTitleForm.value;
-    if (this.unitTitleForm.invalid || (this.unitTitle === newTitle)) {
+    const { title: newTitle } = this.unitTitleForm.value;
+    if (this.unitTitleForm.invalid || this.unitTitle === newTitle) {
       this.modalCtrl.dismiss();
       return;
     }
@@ -88,7 +88,7 @@ export class UnitModalComponent implements OnInit {
     this.expandedCardId = card.id;
     this.editCardForm = new FormGroup({
       word: new FormControl(card.wordText, Validators.required),
-      translation: new FormControl(card.wordTranslation, Validators.required)
+      translation: new FormControl(card.wordTranslation, Validators.required),
     });
   }
 
@@ -98,15 +98,15 @@ export class UnitModalComponent implements OnInit {
   }
 
   onCreateCard() {
-    const {word, translation} = this.newCardForm.value;
-    this.dbService.addCardToUnit(this.unitId, word, translation).then(resp => {
+    const { word, translation } = this.newCardForm.value;
+    this.dbService.addCardToUnit(this.unitId, word, translation).then(() => {
       this.hideNewCardForm();
     });
   }
 
   onCardEdit(card: Card) {
-    const {wordText: oldWord, wordTranslation: oldTranslation} = card;
-    const {word: newWord, translation: newTranslation} = this.editCardForm.value;
+    const { wordText: oldWord, wordTranslation: oldTranslation } = card;
+    const { word: newWord, translation: newTranslation } = this.editCardForm.value;
     if (oldWord === newWord && oldTranslation === newTranslation) {
       this.collapseCard();
       return;
@@ -123,14 +123,14 @@ export class UnitModalComponent implements OnInit {
   onUnitRemove() {
     this.presentAlertConfirm();
   }
-  
+
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
       header: 'Are you sure?',
       buttons: [
         {
           text: 'Cancel',
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: 'Remove',
@@ -138,12 +138,11 @@ export class UnitModalComponent implements OnInit {
             this.dbService.removeUnit(this.unitId).then(() => {
               this.modalCtrl.dismiss();
             });
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     await alert.present();
   }
-
 }

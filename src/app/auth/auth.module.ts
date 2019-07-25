@@ -9,20 +9,17 @@ import { SignUpPage } from './sign-up/sign-up.page';
 
 const routes: Routes = [
   { path: 'sign-in', component: SignInPage },
-  { path: 'sign-up', component: SignUpPage }
+  { path: 'sign-up', component: SignUpPage },
 ];
 
 @NgModule({
-  declarations: [
-    SignInPage,
-    SignUpPage
-  ],
+  declarations: [SignInPage, SignUpPage],
   imports: [
     CommonModule,
     IonicModule,
     RouterModule.forChild(routes),
     FormsModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
 export class AuthModule {}

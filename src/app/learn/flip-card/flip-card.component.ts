@@ -4,18 +4,17 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-flip-card',
   templateUrl: './flip-card.component.html',
-  styleUrls: ['./flip-card.component.scss']
+  styleUrls: ['./flip-card.component.scss'],
 })
 export class FlipCardComponent implements OnInit {
   @Input() card: Card;
-  isFlipped: boolean = false;
+  isFlipped = false;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
 
   toggleFlip() {
     this.isFlipped = !this.isFlipped;
   }
-
 }

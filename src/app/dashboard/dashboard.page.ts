@@ -1,30 +1,27 @@
-import { Component, OnInit } from "@angular/core";
-import { ModalController } from "@ionic/angular";
-import { Observable } from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 
-import { DBService } from "./../shared/database.service";
-import { UnitModalComponent } from "./unit-modal/unit-modal.component";
-import { Unit } from "../shared/models/unit.model";
-import { NgForm } from "@angular/forms";
+import { DBService } from './../shared/database.service';
+import { UnitModalComponent } from './unit-modal/unit-modal.component';
+import { Unit } from '../shared/models/unit.model';
+import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "./dashboard.page.html",
-  styleUrls: ["./dashboard.page.scss"]
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.page.html',
+  styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
   units$: Observable<Unit[]>;
   unitsAmount: number;
-  isNewUnitFormDisplayable: boolean = false;
+  isNewUnitFormDisplayable = false;
 
-  constructor(
-    private dbService: DBService,
-    private modalCtrl: ModalController
-  ) {}
+  constructor(private dbService: DBService, private modalCtrl: ModalController) {}
 
   ngOnInit() {
     this.units$ = this.dbService.getUnits();
-    this.units$.subscribe(resp => {
+    this.units$.subscribe((resp: Unit[]) => {
       this.unitsAmount = resp.length;
     });
   }
@@ -40,7 +37,7 @@ export class DashboardPage implements OnInit {
   async openUnitModal(unit: Unit) {
     const modal = await this.modalCtrl.create({
       component: UnitModalComponent,
-      componentProps: { unit }
+      componentProps: { unit },
     });
     return await modal.present();
   }
@@ -51,5 +48,4 @@ export class DashboardPage implements OnInit {
       this.hideNewUnitForm();
     });
   }
-  
 }

@@ -1,6 +1,6 @@
 import { DBService } from './../shared/database.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Card } from '../shared/models/card.model';
 
@@ -16,7 +16,7 @@ export class LearnPage implements OnInit {
   constructor(private route: ActivatedRoute, private dbService: DBService) {}
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params: Params) => {
       this.unitTitle = params['unitTitle'];
       this.cards$ = this.dbService.getUnitCards(params['unitId']);
     });

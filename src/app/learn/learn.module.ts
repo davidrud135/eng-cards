@@ -11,17 +11,12 @@ import { FlipCardComponent } from './flip-card/flip-card.component';
 const routes: Routes = [
   {
     path: '',
-    component: LearnPage
-  }
+    component: LearnPage,
+  },
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [LearnPage, FlipCardComponent]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes)],
+  declarations: [LearnPage, FlipCardComponent],
 })
 export class LearnPageModule {}

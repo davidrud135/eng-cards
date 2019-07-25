@@ -1,5 +1,5 @@
 export interface Card {
-  id: string,
-  wordText: string,
-  wordTranslation: string
+  id: string;
+  wordText: string;
+  wordTranslation: string;
 }
