@@ -78,4 +78,8 @@ export class SignUpPage implements OnInit {
       this.errorToast.dismiss();
     }
   }
+
+  focusNextInput(input: HTMLIonInputElement) {
+    input.setFocus();
+  }
 }
