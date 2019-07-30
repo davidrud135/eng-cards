@@ -43,17 +43,17 @@ export class SignUpPage implements OnInit {
     }
     this.isLoading = true;
     const { email, pass } = this.signUpForm.value;
-    this.authService.signUp(email, pass).subscribe(
-      () => {
+    this.authService
+      .signUp(email, pass)
+      .then(() => {
         this.checkToastState();
         this.navCtrl.navigateRoot('');
         this.isLoading = false;
-      },
-      (errMessage: string) => {
+      })
+      .catch((errMessage: string) => {
         this.isLoading = false;
         this.presentToast(errMessage);
-      },
-    );
+      });
     this.signUpForm.reset();
   }
 

@@ -7,8 +7,9 @@ import {
   Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { AuthService } from './auth.service';
-import { map, take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -18,9 +19,10 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     router: RouterStateSnapshot,
   ): boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree> {
-    return this.authService.user.pipe(
-      take(1),
-      map(user => (!!user ? true : this.router.createUrlTree(['sign-in']))),
+    return this.authService.isAuthenticated().pipe(
+      map((isAuth: boolean) => {
+        return isAuth || this.router.createUrlTree(['sign-in']);
+      }),
     );
   }
 }
