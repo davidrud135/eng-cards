@@ -15,7 +15,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
-import { UnitModalComponent } from './dashboard/unit-modal/unit-modal.component';
+import { UnitModalComponent } from './tabs/dashboard/unit-modal/unit-modal.component';
 
 @NgModule({
   declarations: [AppComponent, UnitModalComponent],

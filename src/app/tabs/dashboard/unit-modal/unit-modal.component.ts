@@ -4,7 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ModalController, IonContent, NavParams, AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
-import { DBService } from './../../shared/database.service';
+import { DBService } from 'src/app/shared/database.service';
 import { Card } from 'src/app/shared/models/card.model';
 
 @Component({

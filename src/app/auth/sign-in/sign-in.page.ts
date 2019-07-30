@@ -34,17 +34,17 @@ export class SignInPage implements OnInit {
     }
     this.isLoading = true;
     const { email, pass } = this.signInForm.value;
-    this.authService.signIn(email, pass).subscribe(
-      () => {
+    this.authService
+      .signIn(email, pass)
+      .then(() => {
         this.checkToastState();
         this.navCtrl.navigateRoot('');
         this.isLoading = false;
-      },
-      (errMessage: string) => {
+      })
+      .catch((errMessage: string) => {
         this.isLoading = false;
         this.presentToast(errMessage);
-      },
-    );
+      });
     this.signInForm.reset();
   }
 

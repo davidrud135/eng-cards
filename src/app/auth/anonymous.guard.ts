@@ -7,12 +7,11 @@ import {
   Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 import { map } from 'rxjs/operators';
 
-import { AuthService } from './auth.service';
-
 @Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate {
+export class AnonymousGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
@@ -21,7 +20,7 @@ export class AuthGuard implements CanActivate {
   ): boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree> {
     return this.authService.isAuthenticated().pipe(
       map((isAuth: boolean) => {
-        return isAuth || this.router.createUrlTree(['sign-in']);
+        return !isAuth || this.router.createUrlTree(['']);
       }),
     );
   }

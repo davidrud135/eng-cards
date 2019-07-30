@@ -1,6 +1,5 @@
-import { AuthService } from './../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { User } from '../auth/user.model';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,11 +12,7 @@ export class ProfilePage implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.authService.user.subscribe((data: User) => {
-      if (data) {
-        this.userEmail = data.email;
-      }
-    });
+    this.userEmail = this.authService.getUserEmail();
   }
 
   onLogout() {

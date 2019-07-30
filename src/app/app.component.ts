@@ -1,4 +1,3 @@
-import { AuthService } from './auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
@@ -14,7 +13,6 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private authService: AuthService,
   ) {
     this.initializeApp();
   }
@@ -26,7 +24,5 @@ export class AppComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.authService.autoLogin();
-  }
+  ngOnInit() {}
 }
