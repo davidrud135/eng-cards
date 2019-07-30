@@ -11,20 +11,22 @@
     <ion-fab-button color="success" (click)="onUnitLearn()">
       <ion-icon name="play"></ion-icon>
     </ion-fab-button>
-  </ion-fab>    
+  </ion-fab>
   <ion-item-group>
     <ion-item-divider>
       <ion-label class="bold">Title</ion-label>
     </ion-item-divider>
     <ion-item lines="none">
-      <ion-note *ngIf="unitTitleForm.invalid" slot="end" color="danger">This field is required</ion-note>
+      <ion-note *ngIf="unitTitleForm.invalid" slot="end" color="danger"
+        >This field is required</ion-note
+      >
       <form [formGroup]="unitTitleForm">
         <ion-input formControlName="title"></ion-input>
       </form>
     </ion-item>
     <ion-item-divider>
       <ion-label class="bold">Cards</ion-label>
-      <ion-note slot="end">{{cardsAmount}}</ion-note>
+      <ion-note slot="end">{{ cardsAmount }}</ion-note>
     </ion-item-divider>
     <ion-card *ngIf="isNewCardFormDisplayable" class="active-card">
       <form [formGroup]="newCardForm" (ngSubmit)="onCreateCard()">
@@ -37,21 +39,25 @@
           <ion-input formControlName="translation"></ion-input>
         </ion-item>
         <ion-item lines="none">
-          <ion-button 
-            size="small"
-            slot="start"
-            fill="outline"
-            (click)="hideNewCardForm()">Cancel</ion-button>
+          <ion-button size="small" slot="start" fill="outline" (click)="hideNewCardForm()"
+            >Cancel</ion-button
+          >
           <ion-button
             type="submit"
             size="small"
             slot="end"
             color="primary"
-            [disabled]="newCardForm.invalid">Create</ion-button>
+            [disabled]="newCardForm.invalid"
+            >Create</ion-button
+          >
         </ion-item>
       </form>
     </ion-card>
-    <ion-card *ngFor="let card of cards$ | async" button="true" [ngClass]="{'active-card': expandedCardId === card.id}">
+    <ion-card
+      *ngFor="let card of cards$ | async"
+      button="true"
+      [ngClass]="{ 'active-card': expandedCardId === card.id }"
+    >
       <div *ngIf="expandedCardId === card.id; else collapsedCard">
         <form [formGroup]="editCardForm" (ngSubmit)="onCardEdit(card)">
           <ion-item lines="full">
@@ -63,19 +69,30 @@
             <ion-input formControlName="translation"></ion-input>
           </ion-item>
           <ion-item lines="none">
-            <ion-button size="small" slot="start" fill="outline" (click)="collapseCard()">Cancel</ion-button>
-            <ion-button type="submit" size="small" slot="end" color="primary" [disabled]="!editCardForm.dirty">Save</ion-button>
-            <ion-button size="small" slot="end" color="danger" (click)="onCardRemove(card)">Remove</ion-button>
+            <ion-button size="small" slot="start" fill="outline" (click)="collapseCard()"
+              >Cancel</ion-button
+            >
+            <ion-button
+              type="submit"
+              size="small"
+              slot="end"
+              color="primary"
+              [disabled]="!editCardForm.dirty"
+              >Save</ion-button
+            >
+            <ion-button size="small" slot="end" color="danger" (click)="onCardRemove(card)"
+              >Remove</ion-button
+            >
           </ion-item>
         </form>
       </div>
       <ng-template #collapsedCard>
         <div (click)="expandCard(card)">
           <ion-item lines="full">
-            <ion-label>{{card.wordText}}</ion-label>
+            <ion-label>{{ card.wordText }}</ion-label>
           </ion-item>
           <ion-item lines="none">
-            <ion-label>{{card.wordTranslation}}</ion-label>
+            <ion-label>{{ card.wordTranslation }}</ion-label>
           </ion-item>
         </div>
       </ng-template>

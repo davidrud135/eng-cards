@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 
-import { DBService } from './../shared/database.service';
+import { DBService } from 'src/app/shared/database.service';
+import { Unit } from 'src/app/shared/models/unit.model';
 import { UnitModalComponent } from './unit-modal/unit-modal.component';
-import { Unit } from '../shared/models/unit.model';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
