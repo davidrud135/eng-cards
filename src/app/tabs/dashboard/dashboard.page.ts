@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 
+import { AuthService } from './../../auth/auth.service';
 import { DBService } from 'src/app/shared/database.service';
 import { Unit } from 'src/app/shared/models/unit.model';
 import { UnitModalComponent } from './unit-modal/unit-modal.component';
@@ -17,12 +18,19 @@ export class DashboardPage implements OnInit {
   unitsAmount: number;
   isNewUnitFormDisplayable = false;
 
-  constructor(private dbService: DBService, private modalCtrl: ModalController) {}
+  constructor(
+    private dbService: DBService,
+    private modalCtrl: ModalController,
+    private authService: AuthService,
+  ) {}
 
   ngOnInit() {
-    this.units$ = this.dbService.getUnits();
-    this.units$.subscribe((resp: Unit[]) => {
-      this.unitsAmount = resp.length;
+    this.authService.getUser().subscribe((user: firebase.User) => {
+      this.dbService.setCurrentUserCollection(user.uid);
+      this.units$ = this.dbService.getUnits();
+      this.units$.subscribe((resp: Unit[]) => {
+        this.unitsAmount = resp.length;
+      });
     });
   }
 
