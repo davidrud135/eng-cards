@@ -2,45 +2,39 @@ import { Injectable } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private user: firebase.User = null;
+  private user$: Observable<firebase.User> = null;
 
   constructor(private navCtrl: NavController, private afAuth: AngularFireAuth) {
-    this.afAuth.authState.subscribe((user: firebase.User) => {
-      this.user = user;
-    });
+    this.user$ = this.afAuth.user;
   }
 
-  isAuthenticated(): Observable<boolean> {
-    return this.afAuth.authState.pipe(
+  public getUser(): Observable<firebase.User> {
+    return this.user$.pipe(filter((user: firebase.User) => !!user));
+  }
+
+  public isAuthenticated(): Observable<boolean> {
+    return this.user$.pipe(
       map((user: firebase.User) => {
         return !!user;
       }),
     );
   }
 
-  getUserId(): string {
-    return this.user.uid;
-  }
-
-  getUserEmail(): string {
-    return this.user.email;
-  }
-
-  signUp(email: string, password: string): Promise<firebase.auth.UserCredential | string> {
+  public signUp(email: string, password: string): Promise<firebase.auth.UserCredential | string> {
     return this.afAuth.auth
       .createUserWithEmailAndPassword(email, password)
       .catch(this.handleAuthError);
   }
 
-  signIn(email: string, password: string): Promise<firebase.auth.UserCredential | string> {
+  public signIn(email: string, password: string): Promise<firebase.auth.UserCredential | string> {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password).catch(this.handleAuthError);
   }
 
-  handleAuthError(error: firebase.auth.Error): Promise<string> {
+  private handleAuthError(error: firebase.auth.Error): Promise<string> {
     let errorMessage = 'An unknown error occurred!';
     switch (error.code) {
       case 'auth/email-already-in-use':
@@ -56,7 +50,7 @@ export class AuthService {
     return Promise.reject(errorMessage);
   }
 
-  logout(): void {
+  public logout(): void {
     this.afAuth.auth.signOut().then(() => {
       this.navCtrl.navigateRoot('/sign-in');
     });
