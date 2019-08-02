@@ -12,7 +12,9 @@ export class ProfilePage implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.userEmail = this.authService.getUserEmail();
+    this.authService.getUser().subscribe((user: firebase.User) => {
+      this.userEmail = user.email;
+    });
   }
 
   onLogout() {
