@@ -18,7 +18,9 @@ export class SignInPage implements OnInit {
     private authService: AuthService,
     private toastController: ToastController,
     private navCtrl: NavController,
-  ) {}
+  ) {
+    this.onSuccessLogin();
+  }
 
   ngOnInit() {
     this.signInForm = new FormGroup({
@@ -38,7 +40,6 @@ export class SignInPage implements OnInit {
       .signIn(email, pass)
       .then(() => {
         this.checkToastState();
-        this.navCtrl.navigateRoot('');
         this.isLoading = false;
       })
       .catch((errMessage: string) => {
@@ -46,6 +47,12 @@ export class SignInPage implements OnInit {
         this.presentToast(errMessage);
       });
     this.signInForm.reset();
+  }
+
+  onSuccessLogin() {
+    this.authService.getUser().subscribe(() => {
+      this.navCtrl.navigateRoot('');
+    });
   }
 
   async presentToast(text: string) {

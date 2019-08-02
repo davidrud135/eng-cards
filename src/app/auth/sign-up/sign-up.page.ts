@@ -18,7 +18,9 @@ export class SignUpPage implements OnInit {
     private authService: AuthService,
     private toastController: ToastController,
     private navCtrl: NavController,
-  ) {}
+  ) {
+    this.onSuccessRegister();
+  }
 
   ngOnInit() {
     this.signUpForm = new FormGroup(
@@ -47,7 +49,6 @@ export class SignUpPage implements OnInit {
       .signUp(email, pass)
       .then(() => {
         this.checkToastState();
-        this.navCtrl.navigateRoot('');
         this.isLoading = false;
       })
       .catch((errMessage: string) => {
@@ -55,6 +56,12 @@ export class SignUpPage implements OnInit {
         this.presentToast(errMessage);
       });
     this.signUpForm.reset();
+  }
+
+  onSuccessRegister() {
+    this.authService.getUser().subscribe(() => {
+      this.navCtrl.navigateRoot('');
+    });
   }
 
   async presentToast(text: string) {
