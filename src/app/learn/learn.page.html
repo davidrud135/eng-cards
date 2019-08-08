@@ -2,12 +2,12 @@
   <ion-toolbar color="tertiary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
-    </ion-buttons> 
-    <ion-title>{{unitTitle}}</ion-title>
+    </ion-buttons>
+    <ion-title>{{ unitTitle }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="tertiary">
+<ion-content color="tertiary" scroll-y="false">
   <ion-slides pager="true" [options]="slideOpts">
     <ion-slide *ngFor="let card of cards$ | async">
       <app-flip-card [card]="card"></app-flip-card>

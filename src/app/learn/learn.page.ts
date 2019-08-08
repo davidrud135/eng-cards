@@ -1,7 +1,8 @@
-import { DBService } from './../shared/database.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs';
+
+import { DBService } from './../shared/database.service';
 import { Card } from '../shared/models/card.model';
 
 @Component({
@@ -12,6 +13,9 @@ import { Card } from '../shared/models/card.model';
 export class LearnPage implements OnInit {
   unitTitle = '';
   cards$: Observable<Card[]>;
+  slideOpts = {
+    loop: true,
+  };
 
   constructor(private route: ActivatedRoute, private dbService: DBService) {}
 
